@@ -7,7 +7,7 @@ class TodoList extends React.Component{
     constructor(){
         super();
         this.state = {
-            todos: TodoStore.getList(),
+            todos: [],
             newTodoTitle: ''
         }
         this._onTodosChange = this._onTodosChange.bind(this);
@@ -15,9 +15,11 @@ class TodoList extends React.Component{
     }
 
     componentDidMount(){
-        if(!this.state.todos.length){
-            TodoActions.getTodos();
-        }
+        TodoActions.setCollection(() => {
+            this.setState({
+                todos: TodoStore.getList()
+            });
+        });
     }
 
     _onTodosChange(){
@@ -48,6 +50,16 @@ class TodoList extends React.Component{
         TodoActions.deleteTodo(ID);
     }
 
+    _getNextPage(){
+        TodoActions.getNextPage();
+        console.log('getting next page');
+    }
+
+    _getPrevPage(){
+        TodoActions.getPrevPage();
+        console.log('getting prev page');
+    }
+
     render(){
         var todos = this.state.todos.map( todo => {
             return (
@@ -63,6 +75,10 @@ class TodoList extends React.Component{
                     <br />
                     <input type="submit" value='Add' />
                 </form>
+                <div>
+                    <input type="button" value="Prev" onClick={this._getPrevPage.bind(this)} />
+                    <input type="button" value="Next" onClick={this._getNextPage.bind(this)}/>
+                </div>
             </div>
         );
     }

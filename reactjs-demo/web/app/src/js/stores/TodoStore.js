@@ -1,4 +1,4 @@
-import {dispatch, register} from '../dispatcher/AppDispatcher';
+import { register} from '../dispatcher/AppDispatcher';
 import TodoConstants from '../constants/TodoConstants';
 import { EventEmitter } from 'events';
 import _ from 'lodash';
@@ -24,6 +24,8 @@ class TodoStore extends EventEmitter{
     constructor(){
         super();
         this._list = [];
+        this._collection;
+        this._ds;
     }
 
     addChangeListener(callback){
@@ -41,13 +43,9 @@ class TodoStore extends EventEmitter{
     handleActions(action){
         let emitChange = () => {
             console.info('Emit change event from Store...');
-            this.emit(CHANGE_EVENT)
+            this.emit(CHANGE_EVENT);
         }
         switch(action.actionType){
-            case TodoConstants.GET_ITEMS:
-                this._list = action.todos;
-                emitChange();
-                break;
             case TodoConstants.NEW_ITEM:
                 this._list.push(action.todo);
                 emitChange();
@@ -58,6 +56,23 @@ class TodoStore extends EventEmitter{
                 break;
             case TodoConstants.DELETE_ITEM:
                 _deleteItem(action.ID, this._list);
+                emitChange();
+                break;
+            case 'SET_COLLECTION':
+                this._collection = action.collection;
+                this._list = action.collection.entities;
+                break;
+            case 'SET_DATA_SOURCE':
+                this._ds = action.ds;
+                break;
+            case 'GET_NEXT_PAGE':
+                this._collection.nextPage();
+                this._list = this._collection.entities;
+                emitChange();
+                break;
+            case 'GET_PREV_PAGE':
+                this._collection.prevPage();
+                this._list = this._collection.entities;
                 emitChange();
                 break;
         }
