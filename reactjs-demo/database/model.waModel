@@ -1,0 +1,76 @@
+{
+	"toJSON": true,
+	"extraProperties": {
+		"version": "2",
+		"classes": {
+			"Todos": {
+				"panelColor": "#8DB3E2",
+				"panel": {
+					"isOpen": "true",
+					"pathVisible": true,
+					"position": {
+						"X": 49,
+						"Y": 52
+					}
+				}
+			}
+		},
+		"model": {
+			"scriptMode": "manual",
+			"workspaceLeft": 0,
+			"workspaceTop": 0,
+			"lastScriptLocation": {
+				"Todos": {
+					"method": "Todos/Todos-methods.js"
+				}
+			}
+		}
+	},
+	"dataClasses": [
+		{
+			"name": "Todos",
+			"className": "Todos",
+			"collectionName": "TodosCollection",
+			"scope": "public",
+			"attributes": [
+				{
+					"name": "ID",
+					"kind": "storage",
+					"scope": "public",
+					"unique": true,
+					"autosequence": true,
+					"type": "long",
+					"primKey": true
+				},
+				{
+					"name": "title",
+					"kind": "storage",
+					"scope": "public",
+					"type": "string"
+				},
+				{
+					"name": "status",
+					"kind": "storage",
+					"scope": "public",
+					"type": "bool"
+				}
+			],
+			"methods": [
+				{
+					"name": "method1",
+					"applyTo": "entity",
+					"scope": "publicOnServer",
+					"from": "$mainModel.Todos.entityMethods.method1",
+					"userDefined": true
+				},
+				{
+					"name": "method2",
+					"applyTo": "entity",
+					"scope": "publicOnServer",
+					"from": "$mainModel.Todos.entityMethods.method2",
+					"userDefined": true
+				}
+			]
+		}
+	]
+}
